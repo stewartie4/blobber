@@ -2,18 +2,14 @@ package main
 
 import (
 	"fmt"
-	"bytes"
-	"bufio"
-	"github.com/klauspost/reedsolomon"
 	"reflect"
 	"syscall/js"
 	"unsafe"
+	"0chain.net/sdkcore"
 )
 
 type ZCNStreamEncoder struct {
-	encoder      	reedsolomon.Encoder
-	dataShards   	int
-	parityShards 	int
+	encoder			*sdkcore.Encoder
 	setupCb 		js.Callback
 	encodeCb		js.Callback
 	decodeCb		js.Callback
@@ -21,16 +17,9 @@ type ZCNStreamEncoder struct {
 	unloadCb		js.Callback
 }
 
-const (
-	DATA_SHARDS_DEFAULT   = 10
-	PARITY_SHARDS_DEFAULT = 3
-)
-
 var WebSDK ZCNStreamEncoder
 
 func init() {
-	WebSDK.dataShards 		= 	DATA_SHARDS_DEFAULT
-	WebSDK.parityShards 	= 	PARITY_SHARDS_DEFAULT
 	WebSDK.setupCb			=	js.NewCallback(ZCNWebSdkSetup)
 	WebSDK.encodeCb			=	js.NewCallback(ZCNWebSdkEncode)
 	WebSDK.decodeCb			= 	js.NewCallback(ZCNWebSdkDecode)
@@ -46,14 +35,7 @@ func ZCNWebSdkSetup(args []js.Value) {
 	}
 	dataShards 		:= args[0].Int()
 	parityShards	:= args[1].Int()
-	enc, err 	:= reedsolomon.New(dataShards, parityShards)
-	if err != nil {
-		fmt.Println("ZCNWebSdkSetup(): ",err.Error())
-		return
-	}
-	WebSDK.encoder 		= enc
-	WebSDK.dataShards	= dataShards
-	WebSDK.parityShards	= parityShards
+	WebSDK.encoder = sdkcore.New(dataShards, parityShards)
 }
 
 // args[0] : Uint8Array JS buffer
@@ -69,21 +51,17 @@ func ZCNWebSdkEncode(args []js.Value) {
 		inputData[i] = byte(inputJsData.Index(i).Int())
 	}
 	
-	data, err := WebSDK.encoder.Split(inputData)
+	numShards, err := WebSDK.encoder.Encode(inputData)
 	if err != nil {
 		fmt.Println("ZCNWebSdkEncode(): ", err.Error())
 		return
 	}
-	err = WebSDK.encoder.Encode(data)
-	if err != nil {
-		fmt.Println("ZCNWebSdkEncode(): ", err.Error)
-		return
-	}
 
-	for i := 0; i < (WebSDK.dataShards + WebSDK.parityShards); i++ {
-		hdr := (*reflect.SliceHeader)(unsafe.Pointer(&data[i]))
+	for i := 0; i < numShards; i++ {
+		data := WebSDK.encoder.GetEncodedDataPart(i)
+		hdr := (*reflect.SliceHeader)(unsafe.Pointer(&data))
 		ptr := uintptr(unsafe.Pointer(hdr.Data))
-		js.Global().Call(js.ValueOf(args[1]).String(), i, len(data[i]), ptr)
+		js.Global().Call(js.ValueOf(args[1]).String(), i, len(data), ptr)
 	}
 }
 
@@ -106,31 +84,17 @@ func ZCNWebSdkDecode(args []js.Value) {
 		for i := 0; i < bytesPerShard; i++ {
 			inputData[shards][i] = byte(jsShard.Index(i).Int())
 		}
-	}
-	_, err := WebSDK.encoder.Verify(inputData)
-	if err != nil {
-		fmt.Println("Verification failed. Reconstructing data")
-		err = WebSDK.encoder.Reconstruct(inputData)
-		if err != nil {
-			fmt.Println("Reconstruct failed -", err)
-			return
-		}
-		_, err = WebSDK.encoder.Verify(inputData)
-		if err != nil {
-			fmt.Println("Verification failed after reconstruction, data likely corrupted.", err.Error())
+		err := WebSDK.encoder.SetDataToDecodePart(shards, inputData[shards])
+		if err != nil  {
+			fmt.Println(err)
 			return
 		}
 	}
-	var bytesBuf bytes.Buffer
-	bufWriter := bufio.NewWriter(&bytesBuf)
-	bufWriter = bufio.NewWriterSize(bufWriter, (bytesPerShard * WebSDK.dataShards))
-	err = WebSDK.encoder.Join(bufWriter, inputData, (bytesPerShard * WebSDK.dataShards))
+	outBuf, err := WebSDK.encoder.Decode()
 	if err != nil {
-		fmt.Println("join failed", err.Error(), inputData)
+		js.Global().Call(js.ValueOf(args[1]).String(), 0, 0)
 		return
 	}
-	bufWriter.Flush()
-	outBuf := bytesBuf.Bytes()
 	// fmt.Println(bytesBuf.Len(), outBuf)
 	hdr := (*reflect.SliceHeader)(unsafe.Pointer(&outBuf))
 	ptr := uintptr(unsafe.Pointer(hdr.Data))
