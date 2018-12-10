@@ -65,7 +65,18 @@ func (enc *Encoder) GetEncodedDataPart(shardNum int) ([]byte) {
 
 func (enc *Encoder) SetDataToDecodePart(shardNum int, dataPart []byte) (error) {
 	if (shardNum < enc.DataShards + enc.ParityShards) {
-		enc.dataToDecode[shardNum] = dataPart
+		enc.dataToDecode[shardNum] = make([]byte, len(dataPart))
+		for i := 0; i < len(dataPart); i++ {
+			enc.dataToDecode[shardNum][i] = dataPart[i]
+		}
+		return nil
+	}
+	return fmt.Errorf("Invalid %d shard", shardNum)
+}
+
+func (enc *Encoder) SetDataToDecodeShard(shardNum int, shard []byte) (error) {
+	if (shardNum < enc.DataShards + enc.ParityShards) {
+		enc.dataToDecode[shardNum] = shard
 		return nil
 	}
 	return fmt.Errorf("Invalid %d shard", shardNum)

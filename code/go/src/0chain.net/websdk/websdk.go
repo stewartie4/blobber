@@ -84,7 +84,7 @@ func ZCNWebSdkDecode(args []js.Value) {
 		for i := 0; i < bytesPerShard; i++ {
 			inputData[shards][i] = byte(jsShard.Index(i).Int())
 		}
-		err := WebSDK.encoder.SetDataToDecodePart(shards, inputData[shards])
+		err := WebSDK.encoder.SetDataToDecodeShard(shards, inputData[shards])
 		if err != nil  {
 			fmt.Println(err)
 			return

@@ -31,9 +31,14 @@ license that can be found in the LICENSE file.
         var encodedData = [[]];
         var numshards = 0;
         function encodeDone(shardNum, length, pointer) {
-            encodedData[shardNum] = memoryBytes.slice(pointer, pointer + length);
-            numshards++;
+            // Simulate some missing shards
+            if (shardNum > 3 && shardNum < 6) {
+                encodedData[shardNum] = new ArrayBuffer(length)
+            } else {
+                encodedData[shardNum] = memoryBytes.slice(pointer, pointer + length);
+            }
             console.log("Shard:", shardNum, encodedData[shardNum]);
+            numshards++;
         }
 
         var decodedData = [];
@@ -54,6 +59,7 @@ license that can be found in the LICENSE file.
             reader.onload = function (e) {
                 console.log(file.name, reader.result); 
                 var uint8View = new Uint8Array(reader.result);
+                numshards = 0;
                 ZCNWebSdkSetup(10,6);
                 ZCNWebSdkEncode(uint8View, "encodeDone");
             }

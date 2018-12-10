@@ -5,8 +5,10 @@ FILESERVERBIN	= fileserver.exe
 WEBSDKDIR 		= ./0chainwebsdk
 ELECTRONSDKDIR 	= ./0chainelectronsdk
 IOSMOBILESDKDIR = ./0chainiosmobilesdk
-IOSMOBILEFRAMEWORK	= Sdkcore.framework
-OUTDIR			= $(WEBSDKDIR) $(ELECTRONSDKDIR) $(IOSMOBILESDKDIR)
+IOSMOBILESDK	= iossdk
+ANDROIDMOBILESDKDIR = ./0chainandroidmobilesdk
+ANDROIDMOBILESDK 		= andoidsdk
+OUTDIR			= $(WEBSDKDIR) $(ELECTRONSDKDIR) $(IOSMOBILESDKDIR) $(ANDROIDMOBILESDKDIR)
 WEBDIR			= $(WEBSDKDIR) $(ELECTRONSDKDIR)
 
 .PHONY: all sdk
@@ -23,10 +25,11 @@ $(OUTDIR):
 	@echo "Copying $(WASM_EXEC) to SDK folders..."
 	@$(eval $(foreach dir, $(WEBDIR),$(shell cp $(WASM_EXEC) $(dir)/)))
 
-sdk: $(TARGETBIN) $(FILESERVERBIN) $(OUTDIR) $(IOSMOBILEFRAMEWORK)
+sdk: $(TARGETBIN) $(FILESERVERBIN) $(OUTDIR) $(IOSMOBILESDK) $(ANDROIDMOBILESDK)
 # Copy common files to all SDK dir
 	@$(eval $(foreach dir, $(WEBDIR),$(shell cp index.html $(dir)/)))
 	@$(eval $(foreach dir, $(WEBDIR),$(shell cp $(TARGETBIN) $(dir)/)))
+	@$(eval $(shell rm -rf $(TARGETBIN)))
 # Copy Web files
 	@$(eval $(shell cp -f $(FILESERVERBIN) $(WEBSDKDIR)))
 # Copy electron files
@@ -37,11 +40,13 @@ $(TARGETBIN): websdk.go
 	@echo "Building $(TARGETBIN) ..."
 	@GOARCH=wasm GOOS=js go build -o $(TARGETBIN) websdk.go
 
-$(IOSMOBILEFRAMEWORK):
+$(IOSMOBILESDK):
 	@echo "Creating iOS framework ..."
-	@rm -rf $(IOSMOBILESDKDIR)/$(IOSMOBILEFRAMEWORK)
-	@gomobile bind -target=ios 0chain.net/sdkcore
-	@mv $(IOSMOBILEFRAMEWORK) $(IOSMOBILESDKDIR)
+	@cd $(IOSMOBILESDKDIR) && gomobile bind -target=ios 0chain.net/sdkcore && cd ..
+
+$(ANDROIDMOBILESDK):
+	@echo "Creating Android jar/aar ..."
+	@cd $(ANDROIDMOBILESDKDIR) && gomobile bind -target=android 0chain.net/sdkcore && cd ..
 
 clean:
-	rm -rf $(TARGETBIN) $(OUTDIR) $(FILESERVERBIN)
+	@rm -rf $(TARGETBIN) $(OUTDIR) $(FILESERVERBIN)
