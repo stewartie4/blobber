@@ -1,6 +1,6 @@
 #FROM ubuntu:16.04
 #RUN groupadd -r 0chain && useradd --no-log-init -r -g 0chain 0chain
-
+ARG image_tag
 FROM golang:1.11.4-alpine3.8 as blobber_build
 
 ENV SRC_DIR=/0chain
@@ -21,6 +21,7 @@ RUN go get github.com/gorilla/handlers
 #Add the source code
 ADD ./code/go/src $SRC_DIR/go/src
 
+ARG image_tag
 RUN go build 0chain.net/blobber/blobber
 
 FROM alpine:3.8
