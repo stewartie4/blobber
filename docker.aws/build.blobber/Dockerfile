@@ -22,7 +22,9 @@ RUN go get github.com/gorilla/handlers
 ADD ./code/go/src $SRC_DIR/go/src
 
 ARG image_tag
-RUN go build 0chain.net/blobber/blobber
+ARG go_build_mode
+ARG go_bls_tag
+RUN go build -tags ${go_build_mode} -tags ${go_bls_tag} 0chain.net/blobber/blobber
 
 FROM alpine:3.8
 ENV APP_DIR=/0chain
