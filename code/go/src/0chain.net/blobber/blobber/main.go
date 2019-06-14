@@ -68,6 +68,11 @@ func SetupWorkerConfig() {
 	config.Configuration.ChallengeMaxRetires = viper.GetInt("challenge_response.max_retries")
 
 	config.Configuration.Capacity = viper.GetInt64("capacity")
+
+	config.Configuration.ReadRatio.ZCN = viper.GetInt64("read_ratio.zcn")
+	config.Configuration.ReadRatio.Size = viper.GetInt64("read_ratio.size")
+	config.Configuration.WriteRatio.ZCN = viper.GetInt64("write_ratio.zcn")
+	config.Configuration.WriteRatio.Size = viper.GetInt64("write_ratio.size")
 }
 
 func SetupWorkers() {

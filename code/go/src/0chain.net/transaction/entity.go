@@ -5,6 +5,7 @@ import (
 
 	"0chain.net/chain"
 	"0chain.net/common"
+	"0chain.net/config"
 	"0chain.net/encryption"
 	"0chain.net/node"
 )
@@ -32,9 +33,13 @@ type SmartContractTxnData struct {
 }
 
 type StorageNode struct {
-	ID        string `json:"id"`
-	BaseURL   string `json:"url"`
-	PublicKey string `json:"-"`
+	ID         string       `json:"id"`
+	BaseURL    string       `json:"url"`
+	PublicKey  string       `json:"-"`
+	ReadRatio  config.Ratio `json:"read_ratio"`
+	WriteRatio config.Ratio `json:"write_ratio"`
+	Used       int64        `json:"used"`
+	Capacity   int64        `json:"capacity"`
 }
 
 type StorageAllocation struct {

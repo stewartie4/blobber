@@ -9,6 +9,7 @@ import (
 	"0chain.net/chain"
 	"0chain.net/challenge"
 	"0chain.net/common"
+	"0chain.net/config"
 	"0chain.net/datastore"
 	"0chain.net/encryption"
 	. "0chain.net/logging"
@@ -171,6 +172,10 @@ func (sp *StorageProtocolImpl) RegisterBlobber(ctx context.Context) (string, err
 	sn := &transaction.StorageNode{}
 	sn.ID = node.Self.GetKey()
 	sn.BaseURL = node.Self.GetURLBase()
+	sn.ReadRatio = config.Configuration.ReadRatio
+	sn.WriteRatio = config.Configuration.WriteRatio
+	sn.Used = 0
+	sn.Capacity = config.Configuration.Capacity
 
 	scData := &transaction.SmartContractTxnData{}
 	scData.Name = transaction.ADD_BLOBBER_SC_NAME
