@@ -26,6 +26,8 @@ func SetupDefaultConfig() {
 	viper.SetDefault("read_ratio.size", 1000)
 	viper.SetDefault("write_ratio.zcn", 10)
 	viper.SetDefault("write_ratio.size", 1)
+	viper.SetDefault("blobber_percentage", .15)
+	viper.SetDefault("validator_percentage", .07)
 }
 
 /*SetupConfig - setup the configuration system */
@@ -64,6 +66,7 @@ type Config struct {
 	ChallengeMaxRetires           int
 	ReadRatio                     Ratio
 	WriteRatio                    Ratio
+	DelegateID                    string
 }
 
 type Ratio struct {

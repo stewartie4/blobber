@@ -33,13 +33,17 @@ type SmartContractTxnData struct {
 }
 
 type StorageNode struct {
-	ID         string       `json:"id"`
-	BaseURL    string       `json:"url"`
-	PublicKey  string       `json:"-"`
-	ReadRatio  config.Ratio `json:"read_ratio"`
-	WriteRatio config.Ratio `json:"write_ratio"`
-	Used       int64        `json:"used"`
-	Capacity   int64        `json:"capacity"`
+	DelegateID          string       `json:"delegate_id"`
+	ID                  string       `json:"id"`
+	BaseURL             string       `json:"url"`
+	PublicKey           string       `json:"-"`
+	ReadRatio           config.Ratio `json:"read_ratio"`
+	WriteRatio          config.Ratio `json:"write_ratio"`
+	Used                int64        `json:"used"`
+	TotalCapacity       int64        `json:"total_capacity"`
+	ValidatorPercentage float64      `json:"validator_percentage"`
+	BlobberPercentage   float64      `json:"blobber_percentage"`
+	GuaranteeFee        float64      `json:"guarntee_fee"`
 }
 
 type StorageAllocation struct {

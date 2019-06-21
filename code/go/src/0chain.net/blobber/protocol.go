@@ -175,7 +175,8 @@ func (sp *StorageProtocolImpl) RegisterBlobber(ctx context.Context) (string, err
 	sn.ReadRatio = config.Configuration.ReadRatio
 	sn.WriteRatio = config.Configuration.WriteRatio
 	sn.Used = 0
-	sn.Capacity = config.Configuration.Capacity
+	sn.TotalCapacity = config.Configuration.Capacity
+	sn.DelegateID = config.Configuration.DelegateID
 
 	scData := &transaction.SmartContractTxnData{}
 	scData.Name = transaction.ADD_BLOBBER_SC_NAME

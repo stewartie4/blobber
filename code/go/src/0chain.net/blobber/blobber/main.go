@@ -201,7 +201,8 @@ func main() {
 	} else {
 		Logger.Info("self identity", zap.Any("id", node.Self.Node.GetKey()))
 	}
-
+	viper.SetDefault("delegate_id", node.Self.ID)
+	config.Configuration.DelegateID = viper.GetString("delegate_id")
 	//address := publicIP + ":" + portString
 	address := ":" + portString
 
