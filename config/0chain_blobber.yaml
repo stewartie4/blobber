@@ -32,6 +32,12 @@ challenge_response:
   frequency: 10
   num_workers: 5
   max_retries : 20
+db:
+  name: blobber_meta
+  user: blobber_user
+  password: blobber
+  host: postgres
+  port: 5432 
 blobber_percent: .25
 validator_percent: .05
 delegate_id: "ef169a046acbf5616534017824ea1032815c3321111689cf050d80d57bbb524d"
