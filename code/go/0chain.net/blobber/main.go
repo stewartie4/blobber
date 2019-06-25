@@ -11,13 +11,13 @@ import (
 	"strings"
 	"time"
 
+	"0chain.net/blobbercore/challenge"
 	"0chain.net/blobbercore/config"
 	"0chain.net/blobbercore/datastore"
 	"0chain.net/blobbercore/filestore"
 	"0chain.net/blobbercore/handler"
 	"0chain.net/blobbercore/readmarker"
 	"0chain.net/blobbercore/writemarker"
-	"0chain.net/blobbercore/challenge"
 	"0chain.net/core/build"
 	"0chain.net/core/chain"
 	"0chain.net/core/common"
@@ -70,6 +70,10 @@ func SetupWorkerConfig() {
 	config.Configuration.DBPort = viper.GetString("db.port")
 	config.Configuration.DBUserName = viper.GetString("db.user")
 	config.Configuration.DBPassword = viper.GetString("db.password")
+	config.Configuration.ReadRatio.ZCN = viper.GetInt64("read_ratio.zcn")
+	config.Configuration.ReadRatio.Size = viper.GetInt64("read_ratio.size")
+	config.Configuration.WriteRatio.ZCN = viper.GetInt64("write_ratio.zcn")
+	config.Configuration.WriteRatio.Size = viper.GetInt64("write_ratio.size")
 }
 
 func SetupWorkers() {
@@ -218,7 +222,8 @@ func main() {
 	} else {
 		Logger.Info("self identity", zap.Any("id", node.Self.Node.GetKey()))
 	}
-
+	viper.SetDefault("delegate_id", node.Self.ID)
+	config.Configuration.DelegateID = viper.GetString("delegate_id")
 	//address := publicIP + ":" + portString
 	address := ":" + portString
 

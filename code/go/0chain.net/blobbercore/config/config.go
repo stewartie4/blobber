@@ -23,6 +23,13 @@ func SetupDefaultConfig() {
 	viper.SetDefault("challenge_response.num_workers", 5)
 	viper.SetDefault("challenge_response.max_retries", 10)
 	viper.SetDefault("capacity", -1)
+	viper.SetDefault("read_ratio.zcn", 1)
+	viper.SetDefault("read_ratio.size", 1000)
+	viper.SetDefault("write_ratio.zcn", 10)
+	viper.SetDefault("write_ratio.size", 1)
+	viper.SetDefault("blobber_percentage", .15)
+	viper.SetDefault("validator_percentage", .07)
+
 }
 
 /*SetupConfig - setup the configuration system */
@@ -60,6 +67,14 @@ type Config struct {
 	ChallengeResolveFreq          int64
 	ChallengeResolveNumWorkers    int
 	ChallengeMaxRetires           int
+	ReadRatio                     Ratio
+	WriteRatio                    Ratio
+	DelegateID                    string
+}
+
+type Ratio struct {
+	ZCN  int64 `json:"zcn"`
+	Size int64 `json:"size"`
 }
 
 /*Configuration of the system */

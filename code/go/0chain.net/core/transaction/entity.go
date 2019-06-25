@@ -3,6 +3,7 @@ package transaction
 import (
 	"fmt"
 
+	"0chain.net/blobbercore/config"
 	"0chain.net/core/chain"
 	"0chain.net/core/common"
 	"0chain.net/core/encryption"
@@ -32,9 +33,15 @@ type SmartContractTxnData struct {
 }
 
 type StorageNode struct {
-	ID        string `json:"id"`
-	BaseURL   string `json:"url"`
-	PublicKey string `json:"-"`
+	DelegateID          string       `json:"delegate_id"`
+	ID                  string       `json:"id"`
+	BaseURL             string       `json:"url"`
+	PublicKey           string       `json:"-"`
+	ReadRatio           config.Ratio `json:"read_ratio"`
+	WriteRatio          config.Ratio `json:"write_ratio"`
+	TotalCapacity       int64        `json:"total_capacity"`
+	ValidatorPercentage float64      `json:"validator_percentage"`
+	BlobberPercentage   float64      `json:"blobber_percentage"`
 }
 
 type StorageAllocation struct {

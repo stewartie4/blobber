@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"time"
 
+	"0chain.net/blobbercore/config"
 	"0chain.net/core/chain"
 	. "0chain.net/core/logging"
 	"0chain.net/core/node"
@@ -23,6 +24,10 @@ func RegisterBlobber(ctx context.Context) (string, error) {
 	sn := &transaction.StorageNode{}
 	sn.ID = node.Self.GetKey()
 	sn.BaseURL = node.Self.GetURLBase()
+	sn.ReadRatio = config.Configuration.ReadRatio
+	sn.WriteRatio = config.Configuration.WriteRatio
+	sn.TotalCapacity = config.Configuration.Capacity
+	sn.DelegateID = config.Configuration.DelegateID
 
 	scData := &transaction.SmartContractTxnData{}
 	scData.Name = transaction.ADD_BLOBBER_SC_NAME

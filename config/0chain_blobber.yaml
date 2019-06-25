@@ -5,6 +5,12 @@ logging:
   console: false # printing log to console is only supported in development mode
 
 capacity: 1099511627776
+write_ratio:
+  zcn: 10
+  size: 1
+read_ratio:
+  zcn: 1
+  size: 1000
 server_chain:
   id: "0afc093ffb509f059c55478bc1a60351cef7b4e9c008a53a6cc8241ca8617dfe"
   owner: "65dfe7e15ca2f689edda6eff3d5c36e8c0975792fa443c5f5413fbca27c49567"
@@ -32,3 +38,6 @@ db:
   password: blobber
   host: postgres
   port: 5432
+blobber_percent: .25
+validator_percent: .05
+delegate_id: "ef169a046acbf5616534017824ea1032815c3321111689cf050d80d57bbb524d"
