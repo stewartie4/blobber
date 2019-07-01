@@ -28,6 +28,7 @@ func RegisterBlobber(ctx context.Context) (string, error) {
 	sn.WriteRatio = config.Configuration.WriteRatio
 	sn.TotalCapacity = config.Configuration.Capacity
 	sn.DelegateID = config.Configuration.DelegateID
+	sn.USDPercent = config.Configuration.USDPercent
 
 	scData := &transaction.SmartContractTxnData{}
 	scData.Name = transaction.ADD_BLOBBER_SC_NAME

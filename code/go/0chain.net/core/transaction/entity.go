@@ -41,7 +41,7 @@ type StorageNode struct {
 	WriteRatio          config.Ratio `json:"write_ratio"`
 	TotalCapacity       int64        `json:"total_capacity"`
 	ValidatorPercentage float64      `json:"validator_percentage"`
-	BlobberPercentage   float64      `json:"blobber_percentage"`
+	USDPercent          float64      `json:"usd_percent"`
 }
 
 type StorageAllocation struct {

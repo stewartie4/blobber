@@ -40,4 +40,4 @@ db:
   port: 5432
 blobber_percent: .25
 validator_percent: .05
-delegate_id: "ef169a046acbf5616534017824ea1032815c3321111689cf050d80d57bbb524d"
+delegate_id: "c8a5e74c2f4fae2c1bed79fb2b78d3b88f844bbb6bf1db5fc43240711f23321f"

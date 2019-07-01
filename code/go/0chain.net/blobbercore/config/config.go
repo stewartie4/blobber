@@ -29,7 +29,7 @@ func SetupDefaultConfig() {
 	viper.SetDefault("write_ratio.size", 1)
 	viper.SetDefault("blobber_percentage", .15)
 	viper.SetDefault("validator_percentage", .07)
-
+	viper.SetDefault("usd_percent", .5)
 }
 
 /*SetupConfig - setup the configuration system */
@@ -70,6 +70,7 @@ type Config struct {
 	ReadRatio                     Ratio
 	WriteRatio                    Ratio
 	DelegateID                    string
+	USDPercent                    float64
 }
 
 type Ratio struct {

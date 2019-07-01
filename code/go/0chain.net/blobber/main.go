@@ -74,6 +74,7 @@ func SetupWorkerConfig() {
 	config.Configuration.ReadRatio.Size = viper.GetInt64("read_ratio.size")
 	config.Configuration.WriteRatio.ZCN = viper.GetInt64("write_ratio.zcn")
 	config.Configuration.WriteRatio.Size = viper.GetInt64("write_ratio.size")
+	config.Configuration.USDPercent = viper.GetFloat64("usd_percent")
 }
 
 func SetupWorkers() {
