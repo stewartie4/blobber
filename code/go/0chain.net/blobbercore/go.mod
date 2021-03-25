@@ -4,6 +4,9 @@ replace 0chain.net/core => ../core
 
 replace 0chain.net/conductor => ../conductor
 
+// Dev only.
+replace github.com/0chain/gosdk => ../gosdk
+
 require (
 	0chain.net/conductor v0.0.0-00010101000000-000000000000
 	0chain.net/core v0.0.0

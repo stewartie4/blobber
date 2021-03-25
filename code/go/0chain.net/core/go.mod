@@ -1,5 +1,8 @@
 module 0chain.net/core
 
+// Dev only.
+replace github.com/0chain/gosdk => ../gosdk
+
 require (
 	github.com/0chain/gosdk v1.0.85
 	github.com/didip/tollbooth v4.0.2+incompatible

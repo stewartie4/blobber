@@ -4,6 +4,9 @@ replace 0chain.net/core => ../core
 
 replace 0chain.net/validatorcore => ../validatorcore
 
+// Dev only.
+replace github.com/0chain/gosdk => ../gosdk
+
 require (
 	0chain.net/core v0.0.0
 	0chain.net/validatorcore v0.0.0

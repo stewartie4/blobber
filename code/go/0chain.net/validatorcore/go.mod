@@ -4,6 +4,9 @@ go 1.14
 
 replace 0chain.net/core => ../core
 
+// Dev only.
+replace github.com/0chain/gosdk => ../gosdk
+
 require (
 	0chain.net/core v0.0.0
 	github.com/0chain/gosdk v1.0.85

@@ -6,6 +6,9 @@ replace 0chain.net/blobbercore => ../blobbercore
 
 replace 0chain.net/conductor => ../conductor
 
+// Dev only.
+replace github.com/0chain/gosdk => ../gosdk
+
 require (
 	0chain.net/blobbercore v0.0.0
 	0chain.net/conductor v0.0.0-00010101000000-000000000000
