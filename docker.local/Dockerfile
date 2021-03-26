@@ -14,7 +14,6 @@ COPY ./code/go/0chain.net/conductor/go.mod      ./code/go/0chain.net/conductor/g
 
 #Add the source code
 ADD ./code/go/0chain.net $SRC_DIR/go/0chain.net
-ADD ./gosdk $SRC_DIR/go/0chain.net/gosdk
 
 WORKDIR $SRC_DIR/go/0chain.net/blobber
 RUN go mod download

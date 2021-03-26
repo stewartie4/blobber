@@ -4,11 +4,12 @@ set -e
 GIT_COMMIT=$(git rev-list -1 HEAD)
 echo $GIT_COMMIT
 
-if [ ! -d gosdk ]; then
-  git clone git@github.com:0chain/gosdk.git gosdk
-  cd gosdk
+TOP="$PWD"
+if [ ! -d ./code/go/0chain.net/gosdk ]; then
+  git clone git@github.com:0chain/gosdk.git ./code/go/0chain.net/gosdk
+  cd ./code/go/0chain.net/gosdk
   git checkout jssdk
-  cd ..
+  cd $TOP
 fi
 
 docker build --build-arg GIT_COMMIT=$GIT_COMMIT -f docker.local/ValidatorDockerfile . -t validator
