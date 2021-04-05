@@ -127,10 +127,12 @@ func (fsh *StorageHandler) GetFileMeta(ctx context.Context, r *http.Request) (in
 	path := r.FormValue("path")
 	path_hash := r.FormValue("path_hash")
 
-	signatureValid, err := verifySignature(signature, clientPublicKey, authTokenString, path, path_hash)
+	if authTokenString == "" {
+		signatureValid, err := verifySignature(signature, clientPublicKey, authTokenString, path, path_hash)
 
-	if err != nil || !signatureValid {
-		return nil, common.NewError("invalid_parameters", "Invalid Signature")
+		if err != nil || !signatureValid {
+			return nil, common.NewError("invalid_parameters", "Invalid Signature")
+		}
 	}
 
 	allocationTx := ctx.Value(constants.ALLOCATION_CONTEXT_KEY).(string)
@@ -475,11 +477,14 @@ func (fsh *StorageHandler) GetReferencePath(ctx context.Context, r *http.Request
 	signature := r.FormValue("signature")
 	path := r.FormValue("path")
 	pathsString := r.FormValue("paths")
+	authTokenString := r.FormValue("auth_token")
 	clientPublicKey := ctx.Value(constants.CLIENT_KEY_CONTEXT_KEY).(string)
 
-	signatureValid, err := verifySignature(signature, clientPublicKey, path, pathsString)
-	if err != nil || !signatureValid {
-		return nil, common.NewError("invalid_parameters", "Invalid Signature")
+	if authTokenString == "" {
+		signatureValid, err := verifySignature(signature, clientPublicKey, path, pathsString)
+		if err != nil || !signatureValid {
+			return nil, common.NewError("invalid_parameters", "Invalid Signature")
+		}
 	}
 
 	if err != nil {
