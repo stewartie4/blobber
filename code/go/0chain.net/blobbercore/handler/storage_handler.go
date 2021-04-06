@@ -477,14 +477,11 @@ func (fsh *StorageHandler) GetReferencePath(ctx context.Context, r *http.Request
 	signature := r.FormValue("signature")
 	path := r.FormValue("path")
 	pathsString := r.FormValue("paths")
-	authTokenString := r.FormValue("auth_token")
 	clientPublicKey := ctx.Value(constants.CLIENT_KEY_CONTEXT_KEY).(string)
 
-	if authTokenString == "" {
-		signatureValid, err := verifySignature(signature, clientPublicKey, path, pathsString)
-		if err != nil || !signatureValid {
-			return nil, common.NewError("invalid_parameters", "Invalid Signature")
-		}
+	signatureValid, err := verifySignature(signature, clientPublicKey, path, pathsString)
+	if err != nil || !signatureValid {
+		return nil, common.NewError("invalid_parameters", "Invalid Signature")
 	}
 
 	if err != nil {
