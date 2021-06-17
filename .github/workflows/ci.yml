@@ -144,5 +144,6 @@ jobs:
         with:
           collection: "/Postman Collections/0chain-regressions.json"
           environment: "/Postman Collections/Environments/Devnet 1.postman_environment.json"
+          reporters: cli
       - name: output-results
         run: echo ${{ steps.run-tests.outputs.summary }}   
