@@ -128,7 +128,7 @@ jobs:
         docker build -t $VALIDATOR_REGISTRY:$TAG -f docker.local/ValidatorDockerfile .
         docker push $VALIDATOR_REGISTRY:$TAG
       env:
-        TAG: ${{ steps.get_version.outputs.VERSION }}
+        TAG: ${{ steps.get_version.outputs.VERSION }} 
         
   newman:
     id: run-newman
