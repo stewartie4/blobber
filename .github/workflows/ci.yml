@@ -138,7 +138,8 @@ jobs:
         with:
           repository: 0chain/0chainAPI
           token: ${{ secrets.PERSONAL_SECRET }}
-      - name: run-tests      
+      - name: run tests
+        id: run-tests
         uses: anthonyvscode/newman-action@v1
         with:
           collection: "Postman Collections/0chain-regressions.json"
