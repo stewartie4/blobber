@@ -137,7 +137,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: 0chain/0chainAPI
-          token: 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
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: run-tests      
         uses: matt-ball/newman-action@master
         with:
