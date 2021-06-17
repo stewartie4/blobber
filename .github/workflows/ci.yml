@@ -129,20 +129,19 @@ jobs:
         docker push $VALIDATOR_REGISTRY:$TAG
       env:
         TAG: ${{ steps.get_version.outputs.VERSION }} 
-        
+ 
   newman:
-    id: run-newman
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        - uses: actions/checkout@v2
-          with:
-            repository: 0chain/0chainAPI
-            token: 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
+        uses: actions/checkout@v2
+        with:
+          repository: 0chain/0chainAPI
+          token: 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
       - name: run-tests      
-        - uses: matt-ball/newman-action@master
-          with:
-            collection: "Postman Collections/0chain-regressions.json"
-            environment: "Postman Collections/Environments/Devnet 1.postman_environment.json"
+        uses: matt-ball/newman-action@master
+        with:
+          collection: "Postman Collections/0chain-regressions.json"
+          environment: "Postman Collections/Environments/Devnet 1.postman_environment.json"
       - name: output-results
         run: echo ${{ steps.run-tests.outputs.summary }}   
