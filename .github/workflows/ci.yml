@@ -131,6 +131,7 @@ jobs:
         TAG: ${{ steps.get_version.outputs.VERSION }}
         
   newman:
+    id: run-newman
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -141,3 +142,4 @@ jobs:
         with:
           collection: "Postman Collections/0chain-regressions.json"
           environment: "Postman Collections/Environments/Devnet 1.postman_environment.json"
+        run: echo ${{ steps.run-newman.outputs.summary }}   
