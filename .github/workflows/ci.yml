@@ -153,7 +153,7 @@ jobs:
 
       - name: Run POSTMAN collection
         run: |
-         newman run './Postman Collections/0chain-regressions.json' -e './Postman Collections/Environments/Devnet 9.postman_environment.json' -r cli,htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme
+         newman run './Postman Collections/0chain-regressions.json' -e './Postman Collections/Environments/Devnet 9.postman_environment.json' -r cli,htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme --color 
     
       - name: Output the run Details
         if: always()
