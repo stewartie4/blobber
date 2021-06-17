@@ -149,15 +149,23 @@ jobs:
          npm install -g newman-reporter-htmlextra
 
       - name: Make Directory for results
-        run: mkdir -p testResults
+        run: mkdir -p public
 
       - name: Run POSTMAN collection
         run: |
-           newman run './Postman Collections/0chain-regressions.json' -e './Postman Collections/Environments/Devnet 9.postman_environment.json' -r cli,htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme --color on –-working-dir "Postman Collections/Data"  
+           newman run './Postman Collections/0chain-regressions.json' -e './Postman Collections/Environments/Devnet 9.postman_environment.json' -r cli,htmlextra --reporter-htmlextra-export public/htmlreport.html --reporter-htmlextra-darkTheme --color on –-working-dir "Postman Collections/Data"  
     
       - name: Output the run Details
         if: always()
         uses: actions/upload-artifact@v2
         with: 
          name: RunReports
-         path: testResults
+         path: ./public
+         
+      - name: Deploy report page
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./public
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'    
