@@ -142,7 +142,7 @@ jobs:
         id: run-tests
         uses: anthonyvscode/newman-action@v1
         with:
-          collection: "Postman Collections/0chain-regressions.json"
-          environment: "Postman Collections/Environments/Devnet 1.postman_environment.json"
+          collection: "/Postman Collections/0chain-regressions.json"
+          environment: "/Postman Collections/Environments/Devnet 1.postman_environment.json"
       - name: output-results
         run: echo ${{ steps.run-tests.outputs.summary }}   
