@@ -129,3 +129,15 @@ jobs:
         docker push $VALIDATOR_REGISTRY:$TAG
       env:
         TAG: ${{ steps.get_version.outputs.VERSION }}
+        
+  newman:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: 0chain/0chainAPI
+      - uses: matt-ball/newman-action@master
+        with:
+          apiKey: ${{ secrets.postmanApiKey }}
+          collection: "Postman Collections/0chain-regressions.json"
+          environment: "Postman Collections/Environments/Devnet 1.postman_environment.json"
