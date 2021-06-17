@@ -138,24 +138,24 @@ jobs:
         with:
           repository: 0chain/0chainAPI
           token: ${{ secrets.PERSONAL_SECRET }}
-    - name: Install Node
-      uses: actions/setup-node@v1
-      with: 
-        node-version: '12.x'
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with: 
+          node-version: '12.x'
 
-    - name: Install newman
-      run: |
-       npm install -g newman
-       npm install -g newman-reporter-htmlextra
+      - name: Install newman
+        run: |
+         npm install -g newman
+         npm install -g newman-reporter-htmlextra
 
-    - name: Make Directory for results
-      run: mkdir -p testResults
+      - name: Make Directory for results
+        run: mkdir -p testResults
 
-    - name: Run POSTMAN collection
-      run: |
-       newman run './Postman Collections/0chain-regressions.json' -e './Postman Collections/Devnet 9.postman_environment.json' -r htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/runreport1.html
-    - name: Output the run Details
-      uses: actions/upload-artifact@v2
-      with: 
-       name: RunReports
-       path: testResults
+      - name: Run POSTMAN collection
+        run: |
+         newman run './Postman Collections/0chain-regressions.json' -e './Postman Collections/Devnet 9.postman_environment.json' -r htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/runreport1.html
+      - name: Output the run Details
+        uses: actions/upload-artifact@v2
+        with: 
+         name: RunReports
+         path: testResults
