@@ -139,7 +139,7 @@ jobs:
           repository: 0chain/0chainAPI
           token: ${{ secrets.PERSONAL_SECRET }}
       - name: run-tests      
-        uses: matt-ball/newman-action@master
+        uses: anthonyvscode/newman-action@v1
         with:
           collection: "Postman Collections/0chain-regressions.json"
           environment: "Postman Collections/Environments/Devnet 1.postman_environment.json"
