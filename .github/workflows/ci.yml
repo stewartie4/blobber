@@ -152,7 +152,7 @@ jobs:
         run: echo "BRANCH=$(echo $GITHUB_REF | cut -d'/' -f 3)" >> $GITHUB_ENV    
 
       - name: Make Directory for results
-        run: mkdir -p ./${BRANCH} && ls -al
+        run: mkdir -p ./${BRANCH} && touch ./${BRANCH}/file
 
       - name: Run POSTMAN collection
         run: |
