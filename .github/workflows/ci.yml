@@ -156,20 +156,20 @@ jobs:
 
       - name: Run POSTMAN collection
         run: |
-           newman run './Postman Collections/0chain-regressions.json' -e './Postman Collections/Environments/Devnet 9.postman_environment.json' -r cli,htmlextra --reporter-htmlextra-export ./${BRANCH}/htmlreport.html --reporter-htmlextra-darkTheme --color on –-working-dir "Postman Collections/Data"  
+           newman run "./Postman Collections/0chain-regressions.json" -e "./Postman Collections/Environments/Devnet 9.postman_environment.json" -r cli,htmlextra --reporter-htmlextra-export "./${BRANCH}/htmlreport.html" --reporter-htmlextra-darkTheme --color on  
     
       - name: Output the run Details
         if: always()
         uses: actions/upload-artifact@v2
         with: 
          name: RunReports
-         path: ./${BRANCH}
+         path: "./${BRANCH}"
          
       - name: Deploy report page
         if: always()
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.PERSONAL_SECRET }}
-          publish_dir: ./${BRANCH}
+          publish_dir: "./${BRANCH}"
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'    
