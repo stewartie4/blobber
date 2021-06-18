@@ -163,13 +163,13 @@ jobs:
         uses: actions/upload-artifact@v2
         with: 
          name: RunReports
-         path: "./${BRANCH}"
+         path: "./${{ env.BRANCH }}"
          
       - name: Deploy report page
         if: always()
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.PERSONAL_SECRET }}
-          publish_dir: "./${BRANCH}"
+          publish_dir: "./${{ env.BRANCH }}"
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'    
