@@ -149,7 +149,7 @@ jobs:
          npm install -g newman-reporter-htmlextra
 
       - name: Make Directory for results
-        run: mkdir -p public
+        run: mkdir -p ./public/${GITHUB_REF##*/}
 
       - name: Run POSTMAN collection
         run: |
@@ -160,13 +160,13 @@ jobs:
         uses: actions/upload-artifact@v2
         with: 
          name: RunReports
-         path: ./public
+         path: ./public/${GITHUB_REF##*/}
          
       - name: Deploy report page
         if: always()
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.PERSONAL_SECRET }}
-          publish_dir: ./public
+          publish_dir: ./public/${GITHUB_REF##*/}
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'    
