@@ -152,7 +152,7 @@ jobs:
         run: echo "BRANCH=$(echo $GITHUB_REF | cut -d'/' -f 3)" >> $GITHUB_ENV    
 
       - name: Make Directory for results
-        run: echo "running on branch $BRANCH"
+        run: mkdir -p ./test-results
 
       - name: Run POSTMAN collection
         run: |
@@ -163,13 +163,14 @@ jobs:
         uses: actions/upload-artifact@v2
         with: 
          name: RunReports
-         path: ./public/${ GITHUB_REF##*/ }
+         path: ./test-results
          
       - name: Deploy report page
         if: always()
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.PERSONAL_SECRET }}
-          publish_dir: ./public/${ GITHUB_REF##*/ }
+          publish_dir: ./test-results
+          destination_dir: $BRANCH
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'    
