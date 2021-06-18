@@ -177,4 +177,4 @@ jobs:
           
       - name: Report Link
         if: always()
-        run: echo "https://stewartie4.github.io/blobber/${{ env.BRANCH }}" 
+        run: echo "https://stewartie4.github.io/blobber/${{ env.BRANCH }}/index.html" 
