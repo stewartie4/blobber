@@ -147,9 +147,12 @@ jobs:
         run: |
          npm install -g newman
          npm install -g newman-reporter-htmlextra
+         
+      - name: Set env BRANCH
+        run: echo "BRANCH=$(echo $GITHUB_REF | cut -d'/' -f 3)" >> $GITHUB_ENV    
 
       - name: Make Directory for results
-        run: echo running on branch ${GITHUB_REF##*/}
+        run: echo "running on branch $BRANCH"
 
       - name: Run POSTMAN collection
         run: |
