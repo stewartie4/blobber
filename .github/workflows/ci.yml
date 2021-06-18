@@ -149,7 +149,7 @@ jobs:
          npm install -g newman-reporter-htmlextra
 
       - name: Make Directory for results
-        run: mkdir -p ./public/${GITHUB_REF##*/}
+        run: echo ${GITHUB_REF##*/} && mkdir -p ./public/${GITHUB_REF##*/}
 
       - name: Run POSTMAN collection
         run: |
