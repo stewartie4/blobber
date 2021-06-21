@@ -130,7 +130,7 @@ jobs:
       env:
         TAG: ${{ steps.get_version.outputs.VERSION }} 
  
-  newman:
+  api tests:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
